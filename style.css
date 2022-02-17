@@ -26,11 +26,9 @@
     margin: 10px;
     /* background-size: cover; */
     /* border: 5px solid #755f40; */
+    /* background-color:#fff; */
 }
 
-.card__open {
-    background: white;
-}
 
 .card__close {
     background: url(./assets/png/Shirt.png);

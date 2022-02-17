@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+
+.container{
+    max-width: 1200px;
+    width: 1200px;
+    height: 1200px;
+}
+
+.game-field {
+    max-width: 900px;
+    width: 800px;
+    height: 800px;
+    margin: 0 auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color:lightcoral;
+    /* background: url(./assets/jpg/backgroundImage.jpg); */
+}
+
+.card{
+    width: calc(25% - 20px) ;
+    height: calc(25% - 20px) ;
+    margin: 10px;
+    /* background-size: cover; */
+    /* border: 5px solid #755f40; */
+}
+
+.card__open {
+    background: white;
+}
+
+.card__close {
+    background: url(./assets/png/Shirt.png);
+    background-size: cover;
+}

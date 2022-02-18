@@ -3,9 +3,14 @@ let quantityElements = 16;
 let gameField = document.querySelector('.game-field');
 let currentCard = null;
 let firstCard, secondCard;
-
 let checkTurn = false; 
 let freezeField = false;
+
+let counterStep = 0;
+let counterRightStep = 0;
+
+const records = {};
+
 // function create class in css
 function addRule(stylename, selector, rule) {
 
@@ -32,9 +37,7 @@ function newCard () {
 }
 newCard ();
 
-
 let cardList = document.querySelectorAll('.card');
-
 cardList.forEach(element => {
         element.addEventListener("click", turnCard )
 });
@@ -43,12 +46,12 @@ function turnCard (){
     if (freezeField){
         return;
     } 
-    
+
     if (!currentCard) {
         this.classList.toggle (`card__open${this.dataset.class}`);
         firstCard = this; 
         currentCard = true;
-        console.log(firstCard);
+        // console.log(firstCard);
         checkTurn = firstCard.dataset.class;
         
     } else {
@@ -58,21 +61,52 @@ function turnCard (){
         this.classList.toggle (`card__open${this.dataset.class}`);
         secondCard = this;
         currentCard = null;
-        console.log(secondCard);
+        // console.log(secondCard);
         checkMatch (); 
     } 
 }
 
+
 function checkMatch () {
+    counterStep++;
     if ((firstCard.dataset.number === secondCard.dataset.number)) {
             firstCard.removeEventListener ("click", turnCard);
             secondCard.removeEventListener ("click", turnCard);
+            counterRightStep++;
+            if (counterRightStep === quantityElements/2) {hasWin()};
             newStep ()
-            console.log('!!');
     } else {
         unTurnCard ();
     } 
 } 
+
+function hasWin () {
+    let arrayResults = []; 
+    console.log(arrayResults, Object.keys.length);
+    if (!JSON.parse(localStorage.getItem('Results'))) {
+        arrayResults[0] =  counterStep.toString();
+    } else {
+        arrayResults = Object.values(JSON.parse(localStorage.getItem('Results')));
+        if (arrayResults.length > 9) {
+            arrayResults.splice(0, (arrayResults.length-9));
+            }
+        arrayResults.unshift(counterStep.toString());
+        }
+    localStorage.setItem ('Results', JSON.stringify(arrayResults));
+    showResults ();
+    setTimeout (() => {window.alert ("Поздравляем вы прошли игру за " + counterStep + " ходов")}, 0);
+    // console.log(JSON.parse(localStorage.getItem(records.length)));
+    // localStorage.clear();
+
+};
+
+function showResults () {
+    let array = Object.values(JSON.parse(localStorage.getItem('Results')));
+    console.log("Результаты последних 10 игр:");
+    for (let i = array.length; i > 0; i--) {
+        console.log("№"+ (array.length-i+1)+ " = " + array[array.length-i] + "шагов" );
+    }
+};
 
 function unTurnCard () {
     freezeField = true;
@@ -95,13 +129,12 @@ function shuffleCard() {
     for (let i = 1; i <= quantityElements; i++) {
         array.push(i);
     }
-    // for (let i = 0; i <array.length; i++) {
-    //     let current = array[i]
-    //     let rand = Math.floor(Math.random()*array.length);
-    //     // array[i] = rand;
-    //     array[i] = array[rand];
-    //     array[rand] = current;
-    // } 
+    for (let i = 0; i <array.length; i++) {
+        let current = array[i]
+        let rand = Math.floor(Math.random()*array.length);
+        array[i] = array[rand];
+        array[rand] = current;
+    } 
     return array;
 } 
 // console.log(shuffleCard());

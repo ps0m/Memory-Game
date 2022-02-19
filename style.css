@@ -1,36 +1,266 @@
-* {
+/* hachi-maru-pop-regular - latin_cyrillic */
+@font-face {
+    font-family: 'Hachi Maru Pop';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./fonts/hachi-maru-pop-v15-latin_cyrillic-regular.eot'); /* IE9 Compat Modes */
+    src: url('./fonts/hachi-maru-pop-v15-latin_cyrillic-regular.eot'); /* IE9 Compat Modes */
+
+    src: local(''),
+         url('./fonts/hachi-maru-pop-v15-latin_cyrillic-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('./fonts/hachi-maru-pop-v15-latin_cyrillic-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('./fonts/hachi-maru-pop-v15-latin_cyrillic-regular.woff') format('woff'), /* Modern Browsers */
+         url('./fonts/hachi-maru-pop-v15-latin_cyrillic-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('./fonts/hachi-maru-pop-v15-latin_cyrillic-regular.svg#HachiMaruPop') format('svg'); /* Legacy iOS */
+  }
+
+/* rampart-one-regular - latin_cyrillic */
+@font-face {
+    font-family: 'Rampart One';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/rampart-one-v5-latin_cyrillic-regular.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('../fonts/rampart-one-v5-latin_cyrillic-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/rampart-one-v5-latin_cyrillic-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/rampart-one-v5-latin_cyrillic-regular.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/rampart-one-v5-latin_cyrillic-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/rampart-one-v5-latin_cyrillic-regular.svg#RampartOne') format('svg'); /* Legacy iOS */
+  }
+
+html{
     box-sizing: border-box;
+    font-family: 'Hachi Maru Pop';
+    height: 100%;
+    font-size: 20pt;
+    --main-color: #ffdc00;
+    background-color:lightcoral;
+     
 }
+
+*, *::after, *::before {
+    box-sizing: inherit;
+}
+
+body{
+    height: 100%;
+}
+
 
 .container{
-    max-width: 1200px;
-    width: 1200px;
-    height: 1200px;
+    max-width: 1000px;
+    min-height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+.header { 
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    border: 10px solid var(--main-color);
+}
+
+.header__logo{
+    width: 150px;
+    height: 75px;
+    margin: 0 20px;
+    background: url(./assets/png/logo.png);
+    background-size: cover;
+    
+}
+
+.header__title {
+    display: block;
+    padding: 20px;
+    /* font-family: 'Rampart One'; */
+    text-align: center;
+    font-size: 50px;
+    /* background-color: var(--main-color); */
+}
+
+.general {
+    width: 100%;
+    height: 100%;
+    flex: 1 1 auto; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+}
+
+
+.memory-game{
+    /* max-width: 1000px; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    border: 10px solid var(--main-color);
+}
 .game-field {
     max-width: 900px;
     width: 800px;
     height: 800px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
-    background-color:lightcoral;
-    /* background: url(./assets/jpg/backgroundImage.jpg); */
+    /* background-color:lightcoral; */
 }
 
 .card{
     width: calc(25% - 20px) ;
     height: calc(25% - 20px) ;
     margin: 10px;
-    /* background-size: cover; */
-    border: 7px solid #ffdc00;
-    /* background-color:#fff; */
+    border: 7px solid var(--main-color);
+    background-position:center;
 }
-
 
 .card__close {
     background: url(./assets/png/Shirt.png);
-    background-size: cover;
 }
+
+.menu{
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: stretch;
+    padding: 20px 0;
+    padding-right: 20px;
+    /* background-color:lightcoral; */
+}
+
+.menu__button {
+    max-width: 180px;
+    height: 50px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #382b22;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: 'Rampart One';
+    font-size: 20pt;
+    padding: 5px;
+    background: #fffd97;
+    border: 2px solid var(--main-color);
+    border-radius: 10px;
+    transition: transform 0.15s;
+    transform-style: preserve-3d;
+     
+}
+
+.menu__button:last-child {
+    margin-bottom: 15px;
+}
+
+.menu__button::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #e6c700;
+    border-radius: inherit;
+    box-shadow:  2px 0 0 rgba(0, 0, 0, 0.2);
+    transform: translate3d (0, 7px, -10px);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.menu__button:hover {
+  background: var(--main-color);
+  /* transform: translate(0, 5px); */
+}
+
+.menu__button:before {
+  box-shadow:  0 10px 0 0 rgba(0, 0, 0, 0.2);
+  transform: translate3d(0, 10px, -20px);
+}
+
+.menu__button:active {
+    background: #fffd97;
+    transform: translate(0em, 10px);
+  }
+.menu__button:active::before {
+    box-shadow:  0 0 #ffe3e2;
+    transform: translate3d(0, 10px, -20px);
+}
+
+/* .menu__button-results{ */
+/* align-self: flex-end; */
+/* } */
+
+.menu__body {
+max-width: 180px;
+margin: 0;
+padding: 10px 0;
+background: var(--main-color);
+border-radius: 10px;
+text-align: center;
+}
+
+.footer { 
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    margin: 20px;
+    padding: 20px;
+    border: 10px solid var(--main-color);
+}
+/* .footer__data {
+}
+.footer__school {
+} */
+
+.footer__link,
+.footer__link:active,
+.footer__link:visited {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 400;    
+
+    /* transition: 2s; */
+}
+
+.footer__link:hover {
+    color: var(--main-color);
+    font-weight: 800;
+    transition: 0.5s;
+
+    /* opacity: 0.8; */
+    /* font-weight: 800; */
+    /* animation: one-step 2s ease-in-out;  */
+
+} 
+
+@keyframes one-step {
+    0% {
+        padding: 0;
+    }
+    25% {
+        padding: 5px;
+    }
+    50% {
+        padding: 0;
+    }
+    100% {
+        padding: 5px;
+    }
+}
+
+
+/* .control-panel__button-volume {
+} */

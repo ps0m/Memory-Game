@@ -6,17 +6,18 @@ let firstCard, secondCard;
 let checkTurn = false; 
 let freezeField = false;
 
+
 let counterStep = 0;
 let counterRightStep = 0;
 
 const records = {};
 
 // function create class in css
-function addRule(stylename, selector, rule) {
+function addRule(styleName, selector, rule) {
 
-    let stylesheet = document.querySelector(`link[href$="${stylename}.css"]`);
+    let stylesheet = document.querySelector(`link[href$="${styleName}.css"]`);
     stylesheet.sheet.insertRule(selector + ' { ' + rule + ' }', stylesheet.sheet.cssRules.length);
-       }
+}
   
 // create block card
 
@@ -27,10 +28,12 @@ function newCard () {
         card.classList.add ('card');
         card.classList.add (`card__close`);
         card.style.backgroundSize = "cover";
+        card.style.backgroundPosition = "center";
         // card.classList.add (`card__open${i}`);
         card.setAttribute('data-class', i );
         card.setAttribute('data-number', Math.ceil(arr[(i)]/2));
         addRule('style', `.card__open${i}`, `background: url(./assets/png/${Math.ceil(arr[(i)]/2)}.png)`);
+
         
         gameField.append(card);
     }
@@ -81,21 +84,30 @@ function checkMatch () {
 } 
 
 function hasWin () {
-    let arrayResults = []; 
+    let arrayResults = [];
+    if (!localStorage.getItem('BestResults')) {
+        localStorage.setItem('BestResults', "10000");
+    }
+    let bestResults = +localStorage.getItem('BestResults');
+
+    if (bestResults > counterStep) {
+        bestResults = counterStep;
+        localStorage.setItem('BestResults', bestResults.toString())
+    } 
     console.log(arrayResults, Object.keys.length);
     if (!JSON.parse(localStorage.getItem('Results'))) {
         arrayResults[0] =  counterStep.toString();
     } else {
         arrayResults = Object.values(JSON.parse(localStorage.getItem('Results')));
-        if (arrayResults.length > 9) {
-            arrayResults.splice(0, (arrayResults.length-9));
-            }
+        // if (arrayResults.length > 9) {
+        //     arrayResults.splice(0, (arrayResults.length-9));
+        //     }
         arrayResults.unshift(counterStep.toString());
         }
     localStorage.setItem ('Results', JSON.stringify(arrayResults));
     showResults ();
-    setTimeout (() => {window.alert ("Поздравляем вы прошли игру за " + counterStep + " ходов")}, 0);
-    // console.log(JSON.parse(localStorage.getItem(records.length)));
+    setTimeout (() => {window.alert (`Поздравляем вы прошли игру за ` + counterStep + ` ходов, лучший результат`+
+    bestResults+`ходов`)}, 0);
     // localStorage.clear();
 
 };

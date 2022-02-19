@@ -10,6 +10,14 @@ let freezeField = false;
 let counterStep = 0;
 let counterRightStep = 0;
 
+let currentScore = document.querySelector ('.menu__body-score');
+let textBestResult = document.querySelector('.menu__body-value-best-result');
+let bestResults = +localStorage.getItem('BestResults')
+
+let time = 0;
+let elementTimer = document.querySelector ('.menu__body-timer')
+console.log(+localStorage.getItem('BestResults'));
+
 const records = {};
 
 // function create class in css
@@ -26,9 +34,9 @@ function newCard () {
     for (i=0; i<quantityElements; i++) {
         let card = document.createElement ('div');
         card.classList.add ('card');
-        card.classList.add (`card__close`);
-        card.style.backgroundSize = "cover";
-        card.style.backgroundPosition = "center";
+        card.classList.add ('card__close');
+        card.style.backgroundSize = 'cover';
+        card.style.backgroundPosition = 'center';
         // card.classList.add (`card__open${i}`);
         card.setAttribute('data-class', i );
         card.setAttribute('data-number', Math.ceil(arr[(i)]/2));
@@ -72,6 +80,9 @@ function turnCard (){
 
 function checkMatch () {
     counterStep++;
+    if (counterStep < 2 ) {
+        currentScore.textContent = `${counterStep}  point`;
+    } else currentScore.textContent = `${counterStep}  points`;
     if ((firstCard.dataset.number === secondCard.dataset.number)) {
             firstCard.removeEventListener ("click", turnCard);
             secondCard.removeEventListener ("click", turnCard);
@@ -88,7 +99,7 @@ function hasWin () {
     if (!localStorage.getItem('BestResults')) {
         localStorage.setItem('BestResults', "10000");
     }
-    let bestResults = +localStorage.getItem('BestResults');
+    bestResults = +localStorage.getItem('BestResults');
 
     if (bestResults > counterStep) {
         bestResults = counterStep;
@@ -104,6 +115,10 @@ function hasWin () {
         //     }
         arrayResults.unshift(counterStep.toString());
         }
+    checkBestResult ();
+
+    clearInterval(timerId); 
+
     localStorage.setItem ('Results', JSON.stringify(arrayResults));
     showResults ();
     setTimeout (() => {window.alert (`Поздравляем вы прошли игру за ` + counterStep + ` ходов, лучший результат`+
@@ -111,6 +126,13 @@ function hasWin () {
     // localStorage.clear();
 
 };
+
+function checkBestResult () {
+    if (bestResults) {
+        textBestResult.textContent = `${bestResults} points`;
+    }
+};
+checkBestResult ();
 
 function showResults () {
     let array = Object.values(JSON.parse(localStorage.getItem('Results')));
@@ -141,16 +163,59 @@ function shuffleCard() {
     for (let i = 1; i <= quantityElements; i++) {
         array.push(i);
     }
-    for (let i = 0; i <array.length; i++) {
-        let current = array[i]
-        let rand = Math.floor(Math.random()*array.length);
-        array[i] = array[rand];
-        array[rand] = current;
-    } 
+    // for (let i = 0; i <array.length; i++) {
+    //     let current = array[i]
+    //     let rand = Math.floor(Math.random()*array.length);
+    //     array[i] = array[rand];
+    //     array[rand] = current;
+    // } 
     return array;
 } 
 // console.log(shuffleCard());
 
+function newGame () {
+    counterStep = counterRightStep = time = 0;
+    currentScore.textContent = `${counterStep}  point`;
+    newStep ();
+    cardList.forEach(element => {
+        element.classList.remove (`card__open${element.dataset.class}`);
+        element.addEventListener("click", turnCard )
+    });
+    shuffleCard();
+    clearInterval(timerId); 
+    timerId = setInterval(timer, 1000)
+}
 
+let buttonNewGame = document.querySelector ('.menu__button-new-game');
+buttonNewGame.addEventListener ("click", newGame);
+
+
+
+var seconds = 0;
+var el = document.getElementById('seconds-counter');
+
+function incrementSeconds() {
+    seconds += 1;
+    el.innerText = "You have been here for " + seconds + " seconds.";
+}
+
+
+
+function timer() {
+    time++;
+    let Minutes = Math.floor (time / 60);
+    let Seconds = Math.floor (time % 60);
+    Seconds = ((Seconds < 10) ? '0': '') + String(Seconds);
+    Minutes = ((Minutes < 10) ? '0': '') + String(Minutes);
+
+
+    elementTimer.innerHTML = `${Minutes}:${Seconds}`;
+
+    // if (time > 1000) {
+    //     return
+    // }
+}
+
+let timerId = setInterval(timer, 1000);
 
 

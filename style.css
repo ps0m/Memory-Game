@@ -77,9 +77,9 @@ body{
 .header__title {
     display: block;
     padding: 20px;
-    /* font-family: 'Rampart One'; */
     text-align: center;
     font-size: 50px;
+    color: var(--main-color)
     /* background-color: var(--main-color); */
 }
 

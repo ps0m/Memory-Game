@@ -19,13 +19,13 @@
     font-family: 'Rampart One';
     font-style: normal;
     font-weight: 400;
-    src: url('../fonts/rampart-one-v5-latin_cyrillic-regular.eot'); /* IE9 Compat Modes */
+    src: url('./fonts/rampart-one-v5-latin_cyrillic-regular.eot'); /* IE9 Compat Modes */
     src: local(''),
-         url('../fonts/rampart-one-v5-latin_cyrillic-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-         url('../fonts/rampart-one-v5-latin_cyrillic-regular.woff2') format('woff2'), /* Super Modern Browsers */
-         url('../fonts/rampart-one-v5-latin_cyrillic-regular.woff') format('woff'), /* Modern Browsers */
-         url('../fonts/rampart-one-v5-latin_cyrillic-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-         url('../fonts/rampart-one-v5-latin_cyrillic-regular.svg#RampartOne') format('svg'); /* Legacy iOS */
+         url('./fonts/rampart-one-v5-latin_cyrillic-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('./fonts/rampart-one-v5-latin_cyrillic-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('./fonts/rampart-one-v5-latin_cyrillic-regular.woff') format('woff'), /* Modern Browsers */
+         url('./fonts/rampart-one-v5-latin_cyrillic-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('./fonts/rampart-one-v5-latin_cyrillic-regular.svg#RampartOne') format('svg'); /* Legacy iOS */
   }
 
 html{

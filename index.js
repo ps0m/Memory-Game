@@ -163,12 +163,12 @@ function shuffleCard() {
     for (let i = 1; i <= quantityElements; i++) {
         array.push(i);
     }
-    // for (let i = 0; i <array.length; i++) {
-    //     let current = array[i]
-    //     let rand = Math.floor(Math.random()*array.length);
-    //     array[i] = array[rand];
-    //     array[rand] = current;
-    // } 
+    for (let i = 0; i <array.length; i++) {
+        let current = array[i]
+        let rand = Math.floor(Math.random()*array.length);
+        array[i] = array[rand];
+        array[rand] = current;
+    } 
     return array;
 } 
 // console.log(shuffleCard());

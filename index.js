@@ -6,9 +6,29 @@ let firstCard, secondCard;
 let checkTurn = false; 
 let freezeField = false;
 
-
 let counterStep = 0;
 let counterRightStep = 0;
+
+let buttonNewGame = document.querySelector ('.menu__button-new-game');
+buttonNewGame.addEventListener ("click", newGame);
+
+let buttonResults = document.querySelector ('.menu__button-results');
+buttonResults.addEventListener ("click", showResults);
+
+let menuButtonSound = document.querySelector('.menu__button-sound');
+menuButtonSound.addEventListener ('click', soundChange );
+
+function soundChange (e) {
+    menuButtonSound.classList.toggle ('menu__button-sound-on');
+    e.target.textContent == '🕨 off' ? e.target.textContent = '🕪 on' : e.target.textContent = '🕨 off';
+    if (clickAudio.volume && winAudio.volume) {
+        clickAudio.volume = 0;
+        winAudio.volume = 0;
+    }   else {
+        clickAudio.volume = 0.5;
+        winAudio.volume = 0.5;
+    }
+}
 
 let currentScore = document.querySelector ('.menu__body-score');
 let textBestResult = document.querySelector('.menu__body-value-best-result');
@@ -19,6 +39,11 @@ let elementTimer = document.querySelector ('.menu__body-timer')
 console.log(+localStorage.getItem('BestResults'));
 
 const records = {};
+
+let popup = document.querySelector ('.popup');
+let popupText = document.querySelector('.popup__text');
+
+
 
 // function create class in css
 function addRule(styleName, selector, rule) {
@@ -44,26 +69,57 @@ function newCard () {
 
         gameField.append(card);
     }
+    listener ();
+}
+newCard ();
 
+
+function listener () {
     let cardList = document.querySelectorAll('.card');
-
     cardList.forEach(element => {
         if (freezeField){
             return;
         } 
         element.classList.remove (`card__open${element.dataset.class}`);
-        element.addEventListener("click", turnCard )
-        element.addEventListener("click", () => {
-            
-        element.classList.add (`rotate`);
-        setTimeout (()=>{
-        element.classList.remove (`rotate`);
-        }, 500)
-        })
+        element.addEventListener("click", turnCard );
+        element.addEventListener("click", clickPlay );
+        
     });
-}
-newCard ();
 
+}
+
+
+let clickAudio = document.querySelector('.click-audio');
+let winAudio = document.querySelector('.win-audio');
+
+function clickPlay() {
+clickAudio.play();
+}
+
+function winPlay() {
+    winAudio.play();
+}
+
+
+function unTurnCard () {
+    freezeField = true;
+    
+    setTimeout (() => {
+        firstCard.classList.add (`rotate`);
+        secondCard.classList.add (`rotate`);
+
+        setTimeout (()=>{
+        firstCard.classList.remove (`rotate`);
+        secondCard.classList.remove (`rotate`);
+        
+    }, 300);    
+    
+    firstCard.classList.remove (`card__open${firstCard.dataset.class}`);
+    secondCard.classList.remove (`card__open${secondCard.dataset.class}`);
+    freezeField = false;
+    
+    }, 1000)
+}
 
 
 function turnCard (){
@@ -76,7 +132,13 @@ function turnCard (){
         firstCard = this; 
         currentCard = true;
         // console.log(firstCard);
+        
         checkTurn = firstCard.dataset.class;
+
+        this.classList.add (`rotate`);
+        setTimeout (()=>{
+        this.classList.remove (`rotate`);
+        }, 300);
         
     } else {
         if (checkTurn === this.dataset.class) {
@@ -85,6 +147,11 @@ function turnCard (){
         this.classList.toggle (`card__open${this.dataset.class}`);
         secondCard = this;
         currentCard = null;
+
+        this.classList.add (`rotate`);
+        setTimeout (()=>{
+        this.classList.remove (`rotate`);
+        }, 300);
         // console.log(secondCard);
         checkMatch (); 
     } 
@@ -108,27 +175,7 @@ function checkMatch () {
     } 
 }
 
-function unTurnCard () {
-    freezeField = true;
-    
-    setTimeout (() => {
-        firstCard.classList.add (`rotate`);
-        secondCard.classList.add (`rotate`);
 
-        setTimeout (()=>{
-        firstCard.classList.remove (`rotate`);
-        secondCard.classList.remove (`rotate`);
-        newStep ()
-        ;
-        }, 500)    
-        
-    firstCard.classList.remove (`card__open${firstCard.dataset.class}`);
-    secondCard.classList.remove (`card__open${secondCard.dataset.class}`);
-    
-    freezeField = false;
-    // newStep ()
-    }, 1000)
-}
 
 function newStep () {
     firstCard = secondCard =null;
@@ -136,6 +183,7 @@ function newStep () {
 } 
 
 function hasWin () {
+    winPlay();
     let arrayResults = [];
     if (!localStorage.getItem('BestResults')) {
         localStorage.setItem('BestResults', "10000");
@@ -163,8 +211,6 @@ function hasWin () {
     clearInterval(timerId); 
 
     showResults ();
-    setTimeout (() => {window.alert (`Поздравляем вы прошли игру за ` + counterStep + ` ходов, лучший результат`+
-    bestResults+`ходов`)}, 0);
     // localStorage.clear();
 
 };
@@ -178,11 +224,26 @@ checkBestResult ();
 
 function showResults () {
     let array = Object.values(JSON.parse(localStorage.getItem('Results')));
-    console.log("Результаты последних 10 игр:");
+    popup.classList.toggle('popup__visible');
+    
     for (let i = array.length; i > 0; i--) {
-        console.log("№"+ (array.length-i+1)+ " = " + array[array.length-i] + "шагов" );
+        let oneResultText = document.createElement ('p');
+        oneResultText.textContent = `Game${(array.length-i+1)} =  ${array[array.length-i]} points`;
+        popupText.append(oneResultText);
     }
+
 };
+
+let popupClose = document.querySelector ('.popup_close');
+popupClose.addEventListener ('click', (e) => {
+    e.preventDefault();
+    popup.classList.toggle('popup__visible');
+    popupText.innerHTML = '';
+
+});
+
+
+
 
 
 
@@ -199,7 +260,6 @@ function shuffleCard() {
     // } 
     return array;
 } 
-// setInterval( () => console.log(shuffleCard()), 2000);
 
 function newGame () {
     counterStep = counterRightStep = time = 0;
@@ -211,22 +271,11 @@ function newGame () {
     timerId = setInterval(timer, 1000)
 
     gameField.innerHTML = '';
-
-    // setTimeout (newCard, 1000);
+    popupText.innerHTML = '';
 
     newCard();
-    
-    // let cardList = document.querySelectorAll('.card');
 
-    // cardList.forEach(element => {
-    //     element.classList.remove (`card__open${element.dataset.class}`);
-    //     element.addEventListener("click", turnCard )
-    // });
 }
-
-let buttonNewGame = document.querySelector ('.menu__button-new-game');
-buttonNewGame.addEventListener ("click", newGame);
-
 
 function timer() {
     time++;
@@ -244,5 +293,7 @@ function timer() {
 }
 
 let timerId = setInterval(timer, 1000);
+
+
 
 

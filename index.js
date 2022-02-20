@@ -6,9 +6,29 @@ let firstCard, secondCard;
 let checkTurn = false; 
 let freezeField = false;
 
-
 let counterStep = 0;
 let counterRightStep = 0;
+
+let buttonNewGame = document.querySelector ('.menu__button-new-game');
+buttonNewGame.addEventListener ("click", newGame);
+
+let buttonResults = document.querySelector ('.menu__button-results');
+buttonResults.addEventListener ("click", showResults);
+
+let menuButtonSound = document.querySelector('.menu__button-sound');
+menuButtonSound.addEventListener ('click', soundChange );
+
+function soundChange (e) {
+    menuButtonSound.classList.toggle ('menu__button-sound-on');
+    e.target.textContent == '🕨 off' ? e.target.textContent = '🕪 on' : e.target.textContent = '🕨 off';
+    if (clickAudio.volume && winAudio.volume) {
+        clickAudio.volume = 0;
+        winAudio.volume = 0;
+    }   else {
+        clickAudio.volume = 0.5;
+        winAudio.volume = 0.5;
+    }
+}
 
 let currentScore = document.querySelector ('.menu__body-score');
 let textBestResult = document.querySelector('.menu__body-value-best-result');
@@ -19,6 +39,11 @@ let elementTimer = document.querySelector ('.menu__body-timer')
 console.log(+localStorage.getItem('BestResults'));
 
 const records = {};
+
+let popup = document.querySelector ('.popup');
+let popupText = document.querySelector('.popup__text');
+
+
 
 // function create class in css
 function addRule(styleName, selector, rule) {
@@ -42,16 +67,60 @@ function newCard () {
         card.setAttribute('data-number', Math.ceil(arr[(i)]/2));
         addRule('style', `.card__open${i}`, `background: url(./assets/png/${Math.ceil(arr[(i)]/2)}.png)`);
 
-        
         gameField.append(card);
     }
+    listener ();
 }
 newCard ();
 
-let cardList = document.querySelectorAll('.card');
-cardList.forEach(element => {
-        element.addEventListener("click", turnCard )
-});
+
+function listener () {
+    let cardList = document.querySelectorAll('.card');
+    cardList.forEach(element => {
+        if (freezeField){
+            return;
+        } 
+        element.classList.remove (`card__open${element.dataset.class}`);
+        element.addEventListener("click", turnCard );
+        element.addEventListener("click", clickPlay );
+        
+    });
+
+}
+
+
+let clickAudio = document.querySelector('.click-audio');
+let winAudio = document.querySelector('.win-audio');
+
+function clickPlay() {
+clickAudio.play();
+}
+
+function winPlay() {
+    winAudio.play();
+}
+
+
+function unTurnCard () {
+    freezeField = true;
+    
+    setTimeout (() => {
+        firstCard.classList.add (`rotate`);
+        secondCard.classList.add (`rotate`);
+
+        setTimeout (()=>{
+        firstCard.classList.remove (`rotate`);
+        secondCard.classList.remove (`rotate`);
+        
+    }, 300);    
+    
+    firstCard.classList.remove (`card__open${firstCard.dataset.class}`);
+    secondCard.classList.remove (`card__open${secondCard.dataset.class}`);
+    freezeField = false;
+    
+    }, 1000)
+}
+
 
 function turnCard (){
     if (freezeField){
@@ -63,7 +132,13 @@ function turnCard (){
         firstCard = this; 
         currentCard = true;
         // console.log(firstCard);
+        
         checkTurn = firstCard.dataset.class;
+
+        this.classList.add (`rotate`);
+        setTimeout (()=>{
+        this.classList.remove (`rotate`);
+        }, 300);
         
     } else {
         if (checkTurn === this.dataset.class) {
@@ -72,6 +147,11 @@ function turnCard (){
         this.classList.toggle (`card__open${this.dataset.class}`);
         secondCard = this;
         currentCard = null;
+
+        this.classList.add (`rotate`);
+        setTimeout (()=>{
+        this.classList.remove (`rotate`);
+        }, 300);
         // console.log(secondCard);
         checkMatch (); 
     } 
@@ -84,17 +164,26 @@ function checkMatch () {
         currentScore.textContent = `${counterStep}  point`;
     } else currentScore.textContent = `${counterStep}  points`;
     if ((firstCard.dataset.number === secondCard.dataset.number)) {
-            firstCard.removeEventListener ("click", turnCard);
-            secondCard.removeEventListener ("click", turnCard);
-            counterRightStep++;
-            if (counterRightStep === quantityElements/2) {hasWin()};
-            newStep ()
+        firstCard.removeEventListener ("click", turnCard);
+        secondCard.removeEventListener ("click", turnCard);
+            
+        counterRightStep++;
+        if (counterRightStep === quantityElements/2) {hasWin()};
+        newStep ()
     } else {
         unTurnCard ();
     } 
+}
+
+
+
+function newStep () {
+    firstCard = secondCard =null;
+    checkTurn = freezeField = false; 
 } 
 
 function hasWin () {
+    winPlay();
     let arrayResults = [];
     if (!localStorage.getItem('BestResults')) {
         localStorage.setItem('BestResults', "10000");
@@ -105,24 +194,23 @@ function hasWin () {
         bestResults = counterStep;
         localStorage.setItem('BestResults', bestResults.toString())
     } 
-    console.log(arrayResults, Object.keys.length);
+    // console.log(arrayResults, Object.keys.length);
     if (!JSON.parse(localStorage.getItem('Results'))) {
         arrayResults[0] =  counterStep.toString();
     } else {
         arrayResults = Object.values(JSON.parse(localStorage.getItem('Results')));
-        // if (arrayResults.length > 9) {
-        //     arrayResults.splice(0, (arrayResults.length-9));
-        //     }
+        if (arrayResults.length > 9) {
+            arrayResults.splice(0, (arrayResults.length-9));
+            }
         arrayResults.unshift(counterStep.toString());
         }
+        localStorage.setItem ('Results', JSON.stringify(arrayResults));
+        
     checkBestResult ();
 
     clearInterval(timerId); 
 
-    localStorage.setItem ('Results', JSON.stringify(arrayResults));
     showResults ();
-    setTimeout (() => {window.alert (`Поздравляем вы прошли игру за ` + counterStep + ` ходов, лучший результат`+
-    bestResults+`ходов`)}, 0);
     // localStorage.clear();
 
 };
@@ -136,27 +224,23 @@ checkBestResult ();
 
 function showResults () {
     let array = Object.values(JSON.parse(localStorage.getItem('Results')));
-    console.log("Результаты последних 10 игр:");
+    popup.classList.toggle('popup__visible');
+    
     for (let i = array.length; i > 0; i--) {
-        console.log("№"+ (array.length-i+1)+ " = " + array[array.length-i] + "шагов" );
+        let oneResultText = document.createElement ('p');
+        oneResultText.textContent = `Game${(array.length-i+1)} =  ${array[array.length-i]} points`;
+        popupText.append(oneResultText);
     }
+
 };
 
-function unTurnCard () {
-    freezeField = true;
-    setTimeout (() => {
-    firstCard.classList.remove (`card__open${firstCard.dataset.class}`);
-    secondCard.classList.remove (`card__open${secondCard.dataset.class}`);
-    freezeField = false;
-    newStep ()
-    }, 1000)
+let popupClose = document.querySelector ('.popup_close');
+popupClose.addEventListener ('click', (e) => {
+    e.preventDefault();
+    popup.classList.toggle('popup__visible');
+    popupText.innerHTML = '';
 
-}
-
-function newStep () {
-    firstCard = secondCard =null;
-    checkTurn = freezeField = false; 
-} 
+});
 
 function shuffleCard() {
     let array = [];
@@ -171,35 +255,22 @@ function shuffleCard() {
     } 
     return array;
 } 
-// console.log(shuffleCard());
 
 function newGame () {
     counterStep = counterRightStep = time = 0;
     currentScore.textContent = `${counterStep}  point`;
     newStep ();
-    cardList.forEach(element => {
-        element.classList.remove (`card__open${element.dataset.class}`);
-        element.addEventListener("click", turnCard )
-    });
+    
     shuffleCard();
     clearInterval(timerId); 
     timerId = setInterval(timer, 1000)
+
+    gameField.innerHTML = '';
+    popupText.innerHTML = '';
+
+    newCard();
+
 }
-
-let buttonNewGame = document.querySelector ('.menu__button-new-game');
-buttonNewGame.addEventListener ("click", newGame);
-
-
-
-var seconds = 0;
-var el = document.getElementById('seconds-counter');
-
-function incrementSeconds() {
-    seconds += 1;
-    el.innerText = "You have been here for " + seconds + " seconds.";
-}
-
-
 
 function timer() {
     time++;
@@ -217,5 +288,7 @@ function timer() {
 }
 
 let timerId = setInterval(timer, 1000);
+
+
 
 

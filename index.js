@@ -42,16 +42,29 @@ function newCard () {
         card.setAttribute('data-number', Math.ceil(arr[(i)]/2));
         addRule('style', `.card__open${i}`, `background: url(./assets/png/${Math.ceil(arr[(i)]/2)}.png)`);
 
-        
         gameField.append(card);
     }
+
+    let cardList = document.querySelectorAll('.card');
+
+    cardList.forEach(element => {
+        if (freezeField){
+            return;
+        } 
+        element.classList.remove (`card__open${element.dataset.class}`);
+        element.addEventListener("click", turnCard )
+        element.addEventListener("click", () => {
+            
+        element.classList.add (`rotate`);
+        setTimeout (()=>{
+        element.classList.remove (`rotate`);
+        }, 500)
+        })
+    });
 }
 newCard ();
 
-let cardList = document.querySelectorAll('.card');
-cardList.forEach(element => {
-        element.addEventListener("click", turnCard )
-});
+
 
 function turnCard (){
     if (freezeField){
@@ -84,14 +97,42 @@ function checkMatch () {
         currentScore.textContent = `${counterStep}  point`;
     } else currentScore.textContent = `${counterStep}  points`;
     if ((firstCard.dataset.number === secondCard.dataset.number)) {
-            firstCard.removeEventListener ("click", turnCard);
-            secondCard.removeEventListener ("click", turnCard);
-            counterRightStep++;
-            if (counterRightStep === quantityElements/2) {hasWin()};
-            newStep ()
+        firstCard.removeEventListener ("click", turnCard);
+        secondCard.removeEventListener ("click", turnCard);
+            
+        counterRightStep++;
+        if (counterRightStep === quantityElements/2) {hasWin()};
+        newStep ()
     } else {
         unTurnCard ();
     } 
+}
+
+function unTurnCard () {
+    freezeField = true;
+    
+    setTimeout (() => {
+        firstCard.classList.add (`rotate`);
+        secondCard.classList.add (`rotate`);
+
+        setTimeout (()=>{
+        firstCard.classList.remove (`rotate`);
+        secondCard.classList.remove (`rotate`);
+        newStep ()
+        ;
+        }, 500)    
+        
+    firstCard.classList.remove (`card__open${firstCard.dataset.class}`);
+    secondCard.classList.remove (`card__open${secondCard.dataset.class}`);
+    
+    freezeField = false;
+    // newStep ()
+    }, 1000)
+}
+
+function newStep () {
+    firstCard = secondCard =null;
+    checkTurn = freezeField = false; 
 } 
 
 function hasWin () {
@@ -105,21 +146,22 @@ function hasWin () {
         bestResults = counterStep;
         localStorage.setItem('BestResults', bestResults.toString())
     } 
-    console.log(arrayResults, Object.keys.length);
+    // console.log(arrayResults, Object.keys.length);
     if (!JSON.parse(localStorage.getItem('Results'))) {
         arrayResults[0] =  counterStep.toString();
     } else {
         arrayResults = Object.values(JSON.parse(localStorage.getItem('Results')));
-        // if (arrayResults.length > 9) {
-        //     arrayResults.splice(0, (arrayResults.length-9));
-        //     }
+        if (arrayResults.length > 9) {
+            arrayResults.splice(0, (arrayResults.length-9));
+            }
         arrayResults.unshift(counterStep.toString());
         }
+        localStorage.setItem ('Results', JSON.stringify(arrayResults));
+        
     checkBestResult ();
 
     clearInterval(timerId); 
 
-    localStorage.setItem ('Results', JSON.stringify(arrayResults));
     showResults ();
     setTimeout (() => {window.alert (`Поздравляем вы прошли игру за ` + counterStep + ` ходов, лучший результат`+
     bestResults+`ходов`)}, 0);
@@ -142,63 +184,48 @@ function showResults () {
     }
 };
 
-function unTurnCard () {
-    freezeField = true;
-    setTimeout (() => {
-    firstCard.classList.remove (`card__open${firstCard.dataset.class}`);
-    secondCard.classList.remove (`card__open${secondCard.dataset.class}`);
-    freezeField = false;
-    newStep ()
-    }, 1000)
 
-}
-
-function newStep () {
-    firstCard = secondCard =null;
-    checkTurn = freezeField = false; 
-} 
 
 function shuffleCard() {
     let array = [];
     for (let i = 1; i <= quantityElements; i++) {
         array.push(i);
     }
-    for (let i = 0; i <array.length; i++) {
-        let current = array[i]
-        let rand = Math.floor(Math.random()*array.length);
-        array[i] = array[rand];
-        array[rand] = current;
-    } 
+    // for (let i = 0; i <array.length; i++) {
+    //     let current = array[i]
+    //     let rand = Math.floor(Math.random()*array.length);
+    //     array[i] = array[rand];
+    //     array[rand] = current;
+    // } 
     return array;
 } 
-// console.log(shuffleCard());
+// setInterval( () => console.log(shuffleCard()), 2000);
 
 function newGame () {
     counterStep = counterRightStep = time = 0;
     currentScore.textContent = `${counterStep}  point`;
     newStep ();
-    cardList.forEach(element => {
-        element.classList.remove (`card__open${element.dataset.class}`);
-        element.addEventListener("click", turnCard )
-    });
+    
     shuffleCard();
     clearInterval(timerId); 
     timerId = setInterval(timer, 1000)
+
+    gameField.innerHTML = '';
+
+    // setTimeout (newCard, 1000);
+
+    newCard();
+    
+    // let cardList = document.querySelectorAll('.card');
+
+    // cardList.forEach(element => {
+    //     element.classList.remove (`card__open${element.dataset.class}`);
+    //     element.addEventListener("click", turnCard )
+    // });
 }
 
 let buttonNewGame = document.querySelector ('.menu__button-new-game');
 buttonNewGame.addEventListener ("click", newGame);
-
-
-
-var seconds = 0;
-var el = document.getElementById('seconds-counter');
-
-function incrementSeconds() {
-    seconds += 1;
-    el.innerText = "You have been here for " + seconds + " seconds.";
-}
-
 
 
 function timer() {

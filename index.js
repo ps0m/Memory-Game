@@ -36,7 +36,6 @@ let bestResults = +localStorage.getItem('BestResults')
 
 let time = 0;
 let elementTimer = document.querySelector ('.menu__body-timer')
-console.log(+localStorage.getItem('BestResults'));
 
 const records = {};
 
@@ -133,7 +132,6 @@ function turnCard (){
         this.classList.toggle (`card__open${this.dataset.class}`);
         firstCard = this; 
         currentCard = true;
-        // console.log(firstCard);
         
         checkTurn = firstCard.dataset.class;
 
@@ -154,7 +152,6 @@ function turnCard (){
         setTimeout (()=>{
         this.classList.remove (`rotate`);
         }, 300);
-        // console.log(secondCard);
         checkMatch (); 
     } 
 }
@@ -196,7 +193,6 @@ function hasWin () {
         bestResults = counterStep;
         localStorage.setItem('BestResults', bestResults.toString())
     } 
-    // console.log(arrayResults, Object.keys.length);
     if (!JSON.parse(localStorage.getItem('Results'))) {
         arrayResults[0] =  counterStep.toString();
     } else {
@@ -218,7 +214,6 @@ function hasWin () {
     }, 5000)
 
     showResults ();
-    // localStorage.clear();
 
 };
 
@@ -230,6 +225,7 @@ function checkBestResult () {
 checkBestResult ();
 
 function showResults () {
+
     let array = Object.values(JSON.parse(localStorage.getItem('Results')));
     popup.classList.toggle('popup__visible');
     
@@ -297,6 +293,30 @@ function timer() {
 
 let timerId = setInterval(timer, 1000);
 
+let x = window.matchMedia("(max-width: 768px)")
+myFunction(x); 
+x.addListener(myFunction);
 
+function myFunction(x) {
+    if (x.matches) { 
+        buttonNewGame.textContent = 'N';
+            buttonNewGame.addEventListener('mouseover', ()=> {
+                buttonNewGame.textContent = 'New Game';
+            })
+            buttonNewGame.addEventListener('mouseout', ()=> {
+                buttonNewGame.textContent = 'N';
+            })
 
-
+        buttonResults.textContent = 'R';
+            buttonResults.addEventListener('mouseover', ()=> {
+                buttonResults.textContent = 'Results';
+            })
+            buttonResults.addEventListener('mouseout', ()=> {
+                buttonResults.textContent = 'R';
+            })
+    } else {
+        buttonNewGame.textContent = 'New Game';
+            buttonResults.textContent = 'Results';
+    }
+  }
+  

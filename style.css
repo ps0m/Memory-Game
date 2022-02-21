@@ -30,12 +30,8 @@
 
 html{
     box-sizing: border-box;
-    font-family: 'Hachi Maru Pop';
     height: 100%;
-    font-size: 20pt;
-    --main-color: #ffdc00;
-    background-color:rgb(253, 230, 230);
-     
+    
 }
 
 *, *::after, *::before {
@@ -44,11 +40,14 @@ html{
 
 body{
     height: 100%;
+    font-family: 'Hachi Maru Pop';
+    font-size: 20pt;
+    --main-color: #ffdc00;
+    background-color:rgb(253, 230, 230);
 }
 
-
 .container{
-    max-width: 1000px;
+    max-width: 1440px;
     min-height: 100%;
     margin: 0 auto;
     display: flex;
@@ -74,7 +73,6 @@ body{
     margin: 0 20px;
     background: url(./assets/png/logo.png);
     background-size: cover;
-    
 }
 
 .header__title {
@@ -86,29 +84,29 @@ body{
 
 .general {
     width: 100%;
-    height: 100%;
+    max-height: 100%;
     flex: 1 1 auto; 
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     margin: 0;
     padding: 0;
 }
 
-
 .memory-game{
     width: 100%;
+    max-height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: stretch;
     border: 10px solid var(--main-color);
     box-shadow: 0px 0px 10px #fff;
-
 }
+
 .game-field {
-    max-width: 900px;
-    width: 800px;
-    height: 800px;
+    max-width: 1100px;
+    min-height: 1100px;
+    flex: 1 1 auto;
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
@@ -168,7 +166,7 @@ body{
     text-transform: uppercase;
     text-align: center;
     font-family: 'Rampart One';
-    font-size: 20pt;
+    font-size: inherit;
     padding: 5px;
     background: #fffd97;
     border: 2px solid var(--main-color);
@@ -220,12 +218,12 @@ body{
 }
 
 .menu__body {
-max-width: 180px;
-margin: 0;
-padding: 10px 0;
-background: var(--main-color);
-border-radius: 10px;
-text-align: center;
+    max-width: 180px;
+    margin: 0;
+    padding: 10px 0;
+    background: var(--main-color);
+    border-radius: 10px;
+    text-align: center;
 }
 
 .footer { 
@@ -237,9 +235,7 @@ text-align: center;
     padding: 20px;
     background-color: var(--main-color);
     color: #000;
-    /* border: 10px solid var(--main-color); */
     box-shadow: 0px 0px 10px #fff;
-
 }
 
 .footer__link,
@@ -247,14 +243,12 @@ text-align: center;
 .footer__link:visited {
     color: inherit;
     text-decoration: none;
-    font-weight: 400;    
 }
 
 .footer__link:hover {
     color: rgb(253, 230, 230);
     font-weight: 800;
     transition: 0.5s;
-
 }
 
 .popup {
@@ -272,7 +266,6 @@ text-align: center;
     visibility: visible;
     opacity: 1;
     transition: 1s;
-
 }
 
 .popup__module {
@@ -283,74 +276,6 @@ text-align: center;
     padding: 20px;
     position: relative;
 }
-
-.winner{
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    top: 50%; 
-    right: 50%;
-    transform: translate(50%,-50%);
-}
-
-
-.winner__text{
-    position: absolute;
-    top: 50%; 
-    right: 50%;
-    transform: translate(50%,-50%);
-    text-transform: uppercase;
-    font-size: 100px;
-    font-weight: 700;
-    line-height: 1.6;
-    text-align: center;
-    color: #f5f5f5;
-    text-shadow: 1px 1px 1px #919191,
-        1px 2px 1px #919191,
-        1px 3px 1px #919191,
-        1px 4px 1px #919191,
-        1px 5px 1px #919191,
-        1px 6px 1px #919191,
-        1px 7px 1px #919191,
-        1px 8px 1px #919191,
-        1px 9px 1px #919191,
-        1px 10px 1px #919191,
-    1px 18px 6px rgba(16,16,16,0.4),
-    1px 22px 10px rgba(16,16,16,0.2),
-    1px 25px 35px rgba(16,16,16,0.2),
-    1px 30px 60px rgba(16,16,16,0.4);
-    visibility: hidden;
-}
-
-.winner__animation{
-    visibility: visible;
-    animation: winner 3s ease-in-out;
-}
-@keyframes winner {
-    0% {
-        /* transform:  */
-        transform: translate(+50%, -50%) scale(0.2);
-        opacity: 0;
-    }
-    20% {
-        transform: translate(+35%, -35%) scale(0.4);
-        color: var(--main-color);
-    }
-
-    60% {
-        transform: translate(+65%, -65%) scale(0.6);
-    }
-    80% {
-        transform: translate(+35%, -35%) scale(0.8);
-        color: var(--main-color);
-    }
-    100% {
-        transform: translate(+50%, -50%) scale(1);
-        opacity: 1;
-
-    }
-}
-
     
 .popup__content {
     max-width: 800px;
@@ -386,3 +311,250 @@ text-align: center;
     right: 15px;
     text-decoration: none;
 }
+
+.winner{
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    top: 45%; 
+    right: 50%;
+    transform: translate(50%,-50%);
+}
+
+
+.winner__text{
+    position: absolute;
+    top: 50%; 
+    right: 50%;
+    transform: translate(50%,-50%);
+    text-transform: uppercase;
+    font-size: 100px;
+    font-weight: 700;
+    line-height: 1.6;
+    text-align: center;
+    color: #f5f5f5;
+    text-shadow: 1px 1px 1px #919191,
+                1px 2px 1px #919191,
+                1px 3px 1px #919191,
+                1px 4px 1px #919191,
+                1px 5px 1px #919191,
+                1px 6px 1px #919191,
+                1px 7px 1px #919191,
+                1px 8px 1px #919191,
+                1px 9px 1px #919191,
+                1px 10px 1px #919191,
+                1px 18px 6px rgba(16,16,16,0.4),
+                1px 22px 10px rgba(16,16,16,0.2),
+                1px 25px 35px rgba(16,16,16,0.2),
+                1px 30px 60px rgba(16,16,16,0.4);
+    visibility: hidden;
+}
+
+.winner__animation{
+    visibility: visible;
+    animation: winner 3s ease-in-out;
+}
+@keyframes winner {
+    0% {
+        /* transform:  */
+        transform: translate(+50%, -50%) scale(0.2);
+        opacity: 0;
+    }
+    
+    20% {
+        transform: translate(+35%, -35%) scale(0.4);
+        color: var(--main-color);
+    }
+
+    60% {
+        transform: translate(+65%, -65%) scale(0.6);
+    }
+
+    80% {
+        transform: translate(+35%, -35%) scale(0.8);
+        color: var(--main-color);
+    }
+
+    100% {
+        transform: translate(+50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+
+    .game-field {
+        max-width: 900px;
+        min-height: 900px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    body {
+    font-size: 18pt;
+    }
+
+    .header__title {
+        font-size: 40px;
+        padding: 10px;
+    }
+
+    .game-field {
+        max-width: 700px;
+        min-height: 700px;
+    }
+
+    .menu__button {
+        max-width: 160px;
+        height: 50px;
+    }
+    .menu__body {
+        max-width: 160px;
+    }
+    .popup__content {
+        max-width: 600px;
+        
+    }
+    .popup__title {
+        font-size: 24pt;
+    }
+}
+
+@media screen and (max-width: 870px) {
+
+    .game-field {
+        max-width: 600px;
+        min-height: 600px;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 16pt;
+    }
+    
+    .header__title {
+        font-size: 25px;
+    }
+
+    .header__logo{
+        width: 100px;
+        height: 50px;
+        margin: 0 10px;
+        
+    }
+
+    .memory-game{
+        border: 5px solid var(--main-color);
+    }
+
+    .game-field {
+        max-width: 630px;
+        min-height: 630px;
+    }
+
+    .card{
+        width: calc(25% - 10px) ;
+        height: calc(25% - 10px) ;
+        border: 4px solid var(--main-color);
+        margin: 5px;
+    }
+    .menu {
+        width: 100px;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 10px 0;
+        padding-right: 10px;
+    }
+
+    .menu__button:last-child {
+        margin: 0 0 30px 0 ;
+    }
+
+    .menu__button {
+        width: 50px;
+        height: 50px;
+        position: relative;
+        border-radius: 50%;
+        margin-bottom: 30px;
+    }
+
+    .menu__button-new-game {
+        order: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .menu__button-results {
+        order: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .menu__button-sound {
+        order: 3;
+        display: flex;
+        align-items:flex-start;
+        justify-content: center;
+        line-height: 1.8;
+    }
+
+    .menu__body {
+        max-width: 100px;
+        font-size: 16px;
+        margin: auto 0;
+        padding: 5px 0;
+        order: 4;
+    }
+
+    .popup__content {
+        max-width: 500px;
+        
+    }
+    .popup__title {
+        font-size: 20pt;
+    }
+
+    .winner__text{
+        font-size: 70px;
+    }
+}
+
+@media screen and (max-width: 680px) {
+    
+    .game-field {
+        max-width: 500px;
+        min-height: 500px;
+    }
+    .menu__button {
+        width: 50px;
+        height: 50px;
+        position: relative;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+}
+
+@media screen and (max-width: 550px) {
+    body {
+        font-size: 14pt;
+    }
+
+    .game-field {
+        max-width: 400px;
+        min-height: 400px;
+    }
+    .menu__button {
+        width: 50px;
+        height: 50px;
+        position: relative;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+}
+

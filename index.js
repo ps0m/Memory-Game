@@ -43,6 +43,8 @@ const records = {};
 let popup = document.querySelector ('.popup');
 let popupText = document.querySelector('.popup__text');
 
+let winnerText = document.querySelector ('.winner__text')
+
 
 
 // function create class in css
@@ -210,6 +212,11 @@ function hasWin () {
 
     clearInterval(timerId); 
 
+    winnerText.classList.add ('winner__animation');
+    setTimeout (()=>{
+            winnerText.classList.remove ('winner__animation');
+    }, 5000)
+
     showResults ();
     // localStorage.clear();
 
@@ -247,12 +254,12 @@ function shuffleCard() {
     for (let i = 1; i <= quantityElements; i++) {
         array.push(i);
     }
-    for (let i = 0; i <array.length; i++) {
-        let current = array[i]
-        let rand = Math.floor(Math.random()*array.length);
-        array[i] = array[rand];
-        array[rand] = current;
-    } 
+    // for (let i = 0; i <array.length; i++) {
+    //     let current = array[i]
+    //     let rand = Math.floor(Math.random()*array.length);
+    //     array[i] = array[rand];
+    //     array[rand] = current;
+    // } 
     return array;
 } 
 
@@ -268,6 +275,7 @@ function newGame () {
     gameField.innerHTML = '';
     popupText.innerHTML = '';
 
+    
     newCard();
 
 }

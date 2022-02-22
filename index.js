@@ -20,7 +20,7 @@ menuButtonSound.addEventListener ('click', soundChange );
 
 function soundChange (e) {
     menuButtonSound.classList.toggle ('menu__button-sound-on');
-    e.target.textContent == '🕨 off' ? e.target.textContent = '🕪 on' : e.target.textContent = '🕨 off';
+    e.target.textContent == '\u{1F568} off' ? e.target.textContent = '\u{1F56A} on' : e.target.textContent = '\u{1F568} off';
     if (clickAudio.volume && winAudio.volume) {
         clickAudio.volume = 0;
         winAudio.volume = 0;

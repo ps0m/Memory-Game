@@ -20,11 +20,14 @@ menuButtonSound.addEventListener ('click', soundChange );
 
 function soundChange (e) {
     menuButtonSound.classList.toggle ('menu__button-sound-on');
-    e.target.textContent == '\u{1F568} off' ? e.target.textContent = '\u{1F56A} on' : e.target.textContent = '\u{1F568} off';
+    menuButtonSound.classList.toggle ('menu__button-sound-off');
+
+    e.target.textContent == 'off' ? e.target.textContent = 'on' : e.target.textContent = 'off';
     if (clickAudio.volume && winAudio.volume) {
         clickAudio.volume = 0;
         winAudio.volume = 0;
     }   else {
+        clickPlay();
         clickAudio.volume = 0.5;
         winAudio.volume = 0.5;
     }
@@ -83,8 +86,6 @@ function listener () {
         } 
         element.classList.remove (`card__open${element.dataset.class}`);
         element.addEventListener("click", turnCard );
-        element.addEventListener("click", clickPlay );
-        
     });
 
 }
@@ -132,7 +133,7 @@ function turnCard (){
         this.classList.toggle (`card__open${this.dataset.class}`);
         firstCard = this; 
         currentCard = true;
-        
+        clickPlay();
         checkTurn = firstCard.dataset.class;
 
         this.classList.add (`rotate`);
@@ -147,7 +148,7 @@ function turnCard (){
         this.classList.toggle (`card__open${this.dataset.class}`);
         secondCard = this;
         currentCard = null;
-
+        clickPlay();
         this.classList.add (`rotate`);
         setTimeout (()=>{
         this.classList.remove (`rotate`);
@@ -173,8 +174,6 @@ function checkMatch () {
         unTurnCard ();
     } 
 }
-
-
 
 function newStep () {
     firstCard = secondCard =null;
@@ -239,6 +238,8 @@ function showResults () {
         }
     }
     popup.classList.toggle('popup__visible');
+    clickPlay();
+    
 
 };
 
@@ -275,7 +276,7 @@ function newGame () {
     gameField.innerHTML = '';
     popupText.innerHTML = '';
 
-    
+    clickPlay();
     newCard();
 
 }

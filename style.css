@@ -293,13 +293,20 @@ body{
     border-bottom: 3px solid #000;
 }
 .popup__text {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     font-size: inherit;
+    text-align: center;
+    
 }
-.popup__text p{
-    display: inline-block;
+.popup__text div{
     width: calc(50% - 20px);
-    margin: 10px;
     white-space:nowrap;
+    text-align: center;
+
 }
 
 .popup_close {
@@ -450,8 +457,8 @@ body{
     }
 
     .game-field {
-        max-width: 630px;
-        min-height: 630px;
+        max-width: 670px;
+        min-height: 670px;
     }
 
     .card{
@@ -461,7 +468,7 @@ body{
         margin: 5px;
     }
     .menu {
-        width: 100px;
+        width: 70px;
         justify-content: flex-start;
         align-items: center;
         padding: 10px 0;
@@ -503,12 +510,29 @@ body{
     }
 
     .menu__body {
-        max-width: 100px;
+        max-width: 70px;
         font-size: 16px;
         margin: auto 0;
-        padding: 5px 0;
+        /* padding: 5px 0; */
         order: 4;
     }
+
+    .menu__body-timer{
+       white-space:wrap;
+    }
+
+    .menu__body-score{
+        white-space:wrap;
+    }
+
+    .menu__body-best-result{
+        display: none;
+    }
+
+    .menu__body-value-best-result{
+        display: none;
+    }
+
 
     .popup__content {
         max-width: 500px;
@@ -526,8 +550,8 @@ body{
 @media screen and (max-width: 680px) {
     
     .game-field {
-        max-width: 500px;
-        min-height: 500px;
+        max-width: 580px;
+        min-height: 580px;
     }
     .menu__button {
         width: 50px;
@@ -539,14 +563,14 @@ body{
 
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 570px) {
     body {
         font-size: 14pt;
     }
 
     .game-field {
-        max-width: 400px;
-        min-height: 400px;
+        max-width: 450px;
+        min-height: 450px;
     }
     .menu__button {
         width: 50px;
@@ -558,3 +582,9 @@ body{
 
 }
 
+@media screen and (max-width: 470px) {
+    .game-field {
+        max-width: 350px;
+        min-height: 350px;
+    }
+}

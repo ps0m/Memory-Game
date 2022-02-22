@@ -226,14 +226,19 @@ checkBestResult ();
 
 function showResults () {
 
-    let array = Object.values(JSON.parse(localStorage.getItem('Results')));
-    popup.classList.toggle('popup__visible');
-    
-    for (let i = array.length; i > 0; i--) {
-        let oneResultText = document.createElement ('p');
-        oneResultText.textContent = `Game${(array.length-i+1)} =  ${array[array.length-i]} points`;
+    if (!(JSON.parse(localStorage.getItem('Results')))) {
+        let oneResultText = document.createElement ('div');
+        oneResultText.textContent = 'The table is empty';
         popupText.append(oneResultText);
+    } else {
+        let array = Object.values(JSON.parse(localStorage.getItem('Results')));
+        for (let i = array.length; i > 0; i--) {
+            let oneResultText = document.createElement ('div');
+            oneResultText.textContent = `Game${(array.length-i+1)} =  ${array[array.length-i]} points`;
+            popupText.append(oneResultText);
+        }
     }
+    popup.classList.toggle('popup__visible');
 
 };
 
@@ -242,7 +247,6 @@ popupClose.addEventListener ('click', (e) => {
     e.preventDefault();
     popup.classList.toggle('popup__visible');
     popupText.innerHTML = '';
-
 });
 
 function shuffleCard() {
@@ -250,12 +254,12 @@ function shuffleCard() {
     for (let i = 1; i <= quantityElements; i++) {
         array.push(i);
     }
-    for (let i = 0; i <array.length; i++) {
-        let current = array[i]
-        let rand = Math.floor(Math.random()*array.length);
-        array[i] = array[rand];
-        array[rand] = current;
-    } 
+    // for (let i = 0; i <array.length; i++) {
+    //     let current = array[i]
+    //     let rand = Math.floor(Math.random()*array.length);
+    //     array[i] = array[rand];
+    //     array[rand] = current;
+    // } 
     return array;
 } 
 

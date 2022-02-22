@@ -176,7 +176,7 @@ body{
 }
 
 .menu__button:last-child {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 .menu__button::before {
@@ -195,27 +195,67 @@ body{
     transition: transform 0.15s, box-shadow 0.15s;
 }
 
-.menu__button:hover {
-  background: var(--main-color);
-}
+.menu__button-new-game:hover,
+.menu__button-results:hover {
+    background: var(--main-color);
+  }
 
 .menu__button:active {
     background: #fffd97;
     transform: translate(0, 10px);
   }
 .menu__button:active::before {
-    box-shadow:  0 0 #ffe3e2;
+    box-shadow:  0 0 #817d7d;
     transform: translate3d(0, 10px, -20px);
 }
 
+.menu__button-sound-title {
+    display: none;
+    position: absolute;
+}
+
 .menu__button-sound-on {
-    background: #fffd97;
-    transform: translate(0, 10px);
+    background:#fffd97 url('./assets/png/soundOn.png');
+    background-position: 35px 12px;
+    background-size: auto 60%;
+    background-repeat: no-repeat;
+
+    transform: translate(0, 20px);
 }
 .menu__button-sound-on::before {
-    box-shadow:  0 0 #ffe3e2;
+    box-shadow:  0 0 #817d7d;
     transform: translate3d(0, 10px, -20px);
 }
+
+.menu__button-sound-on:active {
+    transform: translate(0, 10px);
+  }
+
+  .menu__button-sound-on:active::before {
+    box-shadow:  0 0 #817d7d;
+    transform: translate3d(0, 10px, -20px);
+}
+
+
+.menu__button-sound-off {
+    background:#fffd97 url('./assets/png/soundOff.png');
+    background-position: 35px 12px;
+    background-size: auto 60%;
+    background-repeat: no-repeat;
+    transform: translate(0, 10px);
+}
+
+.menu__button-sound-off::before {
+    height: 110%;
+    box-shadow:  0 10px 0 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.menu__button-sound-on:hover,
+.menu__button-sound-off:hover {
+    box-shadow: 0 0 10px var(--main-color);
+}
+
 
 .menu__body {
     max-width: 180px;
@@ -509,12 +549,37 @@ body{
         line-height: 1.8;
     }
 
+    .menu__button-sound-on {
+        /* padding-top: 30px; */
+        background:#fffd97; /*url('./assets/png/soundOn.png');*/
+        background-position: center;
+        background-size: auto 60%;
+        background-repeat: no-repeat;
+    }
+
+    .menu__button-sound-off {
+        background:#fffd97; /*url('./assets/png/soundOff.png');*/
+        background-position: center;
+        background-size: auto 60%;
+        background-repeat: no-repeat;
+        overflow: wrap;
+    }
+   
+    .menu__button-sound-title {
+        order: 4;
+        display: block;
+        position: relative;
+        margin-top: 10px;
+        font-family: 'Hachi Maru Pop';
+        font-size: 12pt;
+    }
+
     .menu__body {
         max-width: 70px;
         font-size: 16px;
         margin: auto 0;
         /* padding: 5px 0; */
-        order: 4;
+        order: 5;
     }
 
     .menu__body-timer{
